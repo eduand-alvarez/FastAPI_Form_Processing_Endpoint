@@ -1,7 +1,7 @@
-# main.py
+import uvicorn
 from fastapi import FastAPI, HTTPException
-from models import SubmissionPayload
-from utils import append_to_csv
+from utils.payloads import SubmissionPayload
+from utils.file_utils import append_to_csv
 
 app = FastAPI()
 
@@ -15,3 +15,6 @@ async def submit_model(payload: SubmissionPayload):
         return {"message": "Submission successful"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"An error occurred: {str(e)}")
+    
+if __name__ == "__main__":
+    uvicorn.run("serve:app", host="0.0.0.0", port=8081, log_level="info")
